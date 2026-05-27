@@ -2,37 +2,412 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Тест прокси для проката</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Прокат инструмента | Каталог</title>
+  <style>
+    :root {
+      --bg-color: #f0f4f8;
+      --card-bg: #ffffff;
+      --text-main: #1a202c;
+      --text-secondary: #718096;
+      --border-color: #e2e8f0;
+      --accent-blue: #3182ce;
+      --accent-blue-light: #ebf8ff;
+      --accent-green: #38a169;
+      --accent-green-light: #f0fff4;
+      --accent-red: #e53e3e;
+      --accent-red-light: #fff5f5;
+      --header-bg: #2d3748;
+    }
+    
+    body { 
+      font-family: 'Segoe UI', system-ui, sans-serif; 
+      background: var(--bg-color); 
+      color: var(--text-main); 
+      margin: 0; 
+      padding: 0; 
+      line-height: 1.5; 
+    }
+
+    header { 
+      background: var(--header-bg); 
+      color: #fff; 
+      padding: 20px 0; 
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .header-inner { 
+      max-width: 1100px; 
+      margin: 0 auto; 
+      padding: 0 20px; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 15px; 
+    }
+    
+    .top-row { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 10px; }
+    h1 { margin: 0; font-size: 1.25rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+    .address { font-size: 0.85rem; color: #a0aec0; }
+    
+    .search-wrapper { position: relative; width: 100%; max-width: 400px; }
+    .search-wrapper input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #4a5568;
+      background: #4a5568;
+      color: #fff;
+      font-size: 14px;
+      border-radius: 4px;
+    }
+    .search-wrapper input::placeholder { color: #a0aec0; }
+    .search-wrapper input:focus { outline: none; border-color: #63b3ed; background: #2d3748; }
+
+    .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+    
+    .card { 
+      background: var(--card-bg); 
+      border: 1px solid var(--border-color); 
+      padding: 24px; 
+      display: flex; 
+      flex-direction: column; 
+      position: relative;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #3182ce, #38a169);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .card:hover { 
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+      transform: translateY(-3px);
+    }
+    .card:hover::before { opacity: 1; }
+    
+    .card-head { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 16px; 
+    }
+    .card-code { 
+      font-size: 0.8rem; 
+      color: var(--text-secondary); 
+      font-weight: 500; 
+      background: #f7fafc;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    
+    .status-badge { 
+      font-size: 0.75rem; 
+      font-weight: 700; 
+      padding: 5px 10px; 
+      border-radius: 20px;
+      letter-spacing: 0.3px;
+    }
+    .status-free { 
+      background: var(--accent-green-light); 
+      color: var(--accent-green); 
+      border: 1px solid #c6f6d5;
+    }
+    .status-busy { 
+      background: var(--accent-red-light); 
+      color: var(--accent-red); 
+      border: 1px solid #fed7d7;
+    }
+
+    .card-title { 
+      font-size: 1.15rem; 
+      font-weight: 600; 
+      margin: 0 0 20px 0;
+      line-height: 1.4;
+      color: var(--text-main);
+      min-height: 3.2em;
+    }
+    
+    .info-block { 
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #edf2f7;
+    }
+    .info-row { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      font-size: 0.9rem; 
+    }
+    .label { color: var(--text-secondary); font-weight: 500; }
+    .value { font-weight: 600; }
+    .price-val { 
+      font-size: 1.4rem; 
+      font-weight: 700; 
+      color: #2b6cb0; 
+    }
+    
+    .busy-info { 
+      margin-top: 8px;
+      padding: 12px 16px;
+      background: var(--accent-red-light);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--accent-red);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .actions { 
+      margin-top: auto; 
+      padding-top: 16px;
+      display: flex; 
+      gap: 10px; 
+    }
+    .btn { 
+      flex: 1; 
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center; 
+      padding: 12px 16px; 
+      text-decoration: none; 
+      font-size: 0.9rem; 
+      font-weight: 600; 
+      border-radius: 8px; 
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary { 
+      background: linear-gradient(135deg, #3182ce, #2b6cb0); 
+      color: #fff; 
+      box-shadow: 0 2px 6px rgba(49, 130, 206, 0.3);
+    }
+    .btn-primary:hover { 
+      background: linear-gradient(135deg, #2b6cb0, #2c5282);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(49, 130, 206, 0.4);
+    }
+    .btn-outline { 
+      background: #fff; 
+      color: var(--accent-blue); 
+      border: 2px solid #bee3f8;
+    }
+    .btn-outline:hover { 
+      background: var(--accent-blue-light); 
+      border-color: var(--accent-blue);
+    }
+
+    .card.is-busy { 
+      background: #fafbfc; 
+      border-color: #e2e8f0;
+    }
+    .card.is-busy:hover {
+      transform: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .card.is-busy .actions { display: none; }
+
+    .loading-state { text-align: center; padding: 60px 20px; color: var(--text-secondary); grid-column: 1/-1; }
+    .error-box { background: var(--accent-red-light); border: 1px solid #feb2b2; color: var(--accent-red); padding: 16px; margin-bottom: 20px; border-radius: 8px; text-align: center; }
+
+    @media (min-width: 768px) {
+      .header-inner { flex-direction: row; align-items: center; justify-content: space-between; }
+      .search-wrapper { width: 300px; margin: 0; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Тест подключения к данным проката</h1>
-  <pre id="output">Загрузка данных...</pre>
+
+  <header>
+    <div class="header-inner">
+      <div class="top-row">
+        <div>
+          <h1>ПРОКАТ ИНСТРУМЕНТА</h1>
+        </div>
+        <div class="address">
+          📍 г. Санкт-Петербург, ул. Руставели, 13, БЦ Ручьи, пом. 206
+        </div>
+      </div>
+      <div class="search-wrapper">
+        <input type="text" id="searchInput" placeholder="Поиск по названию или артикулу...">
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div id="error-container"></div>
+    <div id="container" class="grid">
+      <div class="loading-state">Загрузка данных...</div>
+    </div>
+  </div>
 
   <script>
-    // ⚠️ ВАЖНО: Замените этот URL на URL вашего веб-приложения из Apps Script
+    // ========== ВАШ URL СКРИПТА (после обновления) ==========
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDzqjjSCxW8iyjYBiP3KfRE64N24YWot6Qo67ykO6WP-ez8HIqRgqZAvoqMwd-p5k/exec';
+    
+    const PHONES = [
+      { num: '+79817239331', display: '+7 (981) 723-93-31' },
+      { num: '+79013006670', display: '+7 (901) 300-66-70' }
+    ];
 
-    async function testConnection() {
-      const outputDiv = document.getElementById('output');
-      outputDiv.textContent = 'Отправка запроса к прокси...';
+    let allItems = [];
+
+    // Загрузка данных через скрипт
+    async function loadData() {
+      const container = document.getElementById('container');
+      const errorContainer = document.getElementById('error-container');
+      
+      errorContainer.innerHTML = '';
+      container.innerHTML = '<div class="loading-state">⏳ Загрузка данных...</div>';
 
       try {
-        // Простой fetch запрос к вашему скрипту
-        const response = await fetch(SCRIPT_URL);
+        const res = await fetch(SCRIPT_URL, {
+          method: 'GET',
+          cache: 'no-store'
+        });
+        
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const result = await res.json();
+        
+        if (!result.success) throw new Error(result.error || 'Ошибка получения данных');
+        
+        const rows = result.data;
+        if (!rows || rows.length === 0) throw new Error('Нет данных в таблице');
 
-        if (!response.ok) {
-          throw new Error(`Ошибка HTTP: ${response.status} ${response.statusText}`);
-        }
+        let freeItems = [];
+        let busyItems = [];
 
-        const data = await response.json();
-        outputDiv.textContent = JSON.stringify(data, null, 2);
-      } catch (error) {
-        outputDiv.textContent = `Ошибка подключения: ${error.message}`;
+        rows.forEach(row => {
+          const statusRaw = row['Статус'] || '';
+          const status = String(statusRaw).toLowerCase().trim();
+          const isFree = (status === 'свободен');
+          
+          let dateStr = row['Дата - до'] || row['Дата'] || row['Возврат'] || '';
+          
+          const item = {
+            ...row,
+            isFree: isFree,
+            dateStr: dateStr.trim()
+          };
+
+          if (isFree) {
+            freeItems.push(item);
+          } else {
+            busyItems.push(item);
+          }
+        });
+
+        allItems = [...freeItems, ...busyItems];
+        renderCards(allItems);
+
+      } catch (err) {
+        console.error(err);
+        errorContainer.innerHTML = `<div class="error-box">⚠️ Ошибка: ${err.message}</div>`;
+        container.innerHTML = '';
       }
     }
 
-    // Запускаем тест после загрузки страницы
-    window.onload = testConnection;
+    // Отрисовка карточек
+    function renderCards(items) {
+      const container = document.getElementById('container');
+      container.innerHTML = '';
+
+      if (items.length === 0) {
+        container.innerHTML = '<div class="loading-state">Ничего не найдено</div>';
+        return;
+      }
+
+      items.forEach(item => {
+        const code = item['Код'] || '—';
+        const name = escapeHtml(item['Название - №'] || 'Инструмент');
+        const price = item['Цена сутки'] ? `${item['Цена сутки']} ₽` : '—';
+        const deposit = item['Залог'] ? `${item['Залог']} ₽` : '—';
+        
+        let busyBlock = '';
+        if (!item.isFree) {
+          if (item.dateStr) {
+            busyBlock = `<div class="busy-info">⏳ Занято до: <strong>${escapeHtml(item.dateStr)}</strong></div>`;
+          } else {
+            busyBlock = `<div class="busy-info">⏳ Занято (Дата уточняется)</div>`;
+          }
+        }
+
+        let buttons = '';
+        if (item.isFree) {
+          buttons = `
+            <div class="actions">
+              <a href="tel:${PHONES[0].num}" class="btn btn-primary">Позвонить</a>
+              <a href="tel:${PHONES[1].num}" class="btn btn-outline">Второй номер</a>
+            </div>
+          `;
+        }
+
+        const cardHTML = `
+          <div class="card ${item.isFree ? '' : 'is-busy'}">
+            <div class="card-head">
+              <span class="card-code">Арт. ${escapeHtml(code)}</span>
+              <span class="status-badge ${item.isFree ? 'status-free' : 'status-busy'}">
+                ${item.isFree ? '● Свободен' : '● Занят'}
+              </span>
+            </div>
+            <div class="card-title">${name}</div>
+            
+            <div class="info-block">
+              <div class="info-row">
+                <span class="label">Аренда / сутки</span>
+                <span class="value price-val">${price}</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Залог</span>
+                <span class="value">${deposit}</span>
+              </div>
+            </div>
+
+            ${busyBlock}
+            ${buttons}
+          </div>
+        `;
+        container.insertAdjacentHTML('beforeend', cardHTML);
+      });
+    }
+
+    // Защита от XSS
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+
+    // Поиск
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const filtered = allItems.filter(item => {
+        const name = String(item['Название - №'] || '').toLowerCase();
+        const code = String(item['Код'] || '').toLowerCase();
+        return name.includes(q) || code.includes(q);
+      });
+      renderCards(filtered);
+    });
+
+    // Запуск
+    loadData();
   </script>
 </body>
 </html>
