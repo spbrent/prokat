@@ -1,16 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Прокат</title>
+  <title>Тест скрипта</title>
 </head>
 <body>
-  <div id="data"></div>
+  <h3>Результат:</h3>
+  <pre id="result">Загрузка...</pre>
   <script>
-    fetch('https://script.google.com/macros/s/AKfycbzDzqjjSCxW8iyjYBiP3KfRE64N24YWot6Qo67ykO6WP-ez8HIqRgqZAvoqMwd-p5k/exec')
-      .then(r => r.json())
-      .then(d => document.getElementById('data').innerText = JSON.stringify(d, null, 2))
-      .catch(e => console.error(e));
+    // Сюда вставьте URL вашего скрипта
+    const SCRIPT_URL = 'https://script.google.com/macros/s/.../exec';
+    fetch(SCRIPT_URL)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+      })
+      .catch(error => {
+        document.getElementById('result').innerText = 'Ошибка: ' + error;
+      });
   </script>
 </body>
 </html>
