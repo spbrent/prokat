@@ -6,306 +6,55 @@
   <title>Прокат инструмента | ЭЛЕКТРОСЕРВИС</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background: #f0f4f8;
-      font-family: 'Segoe UI', system-ui, 'Roboto', sans-serif;
-      color: #1a202c;
-      line-height: 1.5;
-    }
-
-    /* --- ШАПКА --- */
-    .site-header {
-      background: #2d3748;
-      color: #fff;
-      padding: 8px 0;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-    }
-    .site-header.scrolled {
-      background: rgba(45, 55, 72, 0.9);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    }
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    .header-inner {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      font-size: 0.9rem;
-    }
-    .logo h1 {
-      font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 700;
-      margin: 0;
-      white-space: nowrap;
-    }
-    .address {
-      font-size: 0.75rem;
-      color: #a0aec0;
-      white-space: nowrap;
-    }
-    .header-contacts {
-      text-align: right;
-      white-space: nowrap;
-    }
-    .header-contacts a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-    .header-contacts .small {
-      font-size: 0.7rem;
-      color: #a0aec0;
-    }
-
-    /* Поиск и фильтр */
-    .toolbar {
-      margin: 30px 0 25px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-    }
+    body { background: #f0f4f8; font-family: 'Segoe UI', system-ui, 'Roboto', sans-serif; color: #1a202c; line-height: 1.5; }
+    .site-header { background: #2d3748; color: #fff; padding: 8px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.15); position: sticky; top: 0; z-index: 100; transition: background 0.3s ease, box-shadow 0.3s ease; }
+    .site-header.scrolled { background: rgba(45, 55, 72, 0.9); backdrop-filter: blur(8px); }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    .header-inner { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; font-size: 0.9rem; }
+    .logo h1 { font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin: 0; white-space: nowrap; }
+    .address { font-size: 0.75rem; color: #a0aec0; white-space: nowrap; }
+    .header-contacts { text-align: right; white-space: nowrap; }
+    .header-contacts a { color: #fff; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+    .header-contacts .small { font-size: 0.7rem; color: #a0aec0; }
+    .toolbar { margin: 30px 0 25px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; }
     .search-box { flex: 2; min-width: 200px; }
-    .search-box input {
-      width: 100%;
-      padding: 12px 18px;
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      color: #1a202c;
-      font-size: 1rem;
-    }
-    .search-box input:focus {
-      outline: none;
-      border-color: #3182ce;
-      box-shadow: 0 0 0 3px rgba(49,130,206,0.1);
-    }
+    .search-box input { width: 100%; padding: 12px 18px; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; color: #1a202c; font-size: 1rem; }
+    .search-box input:focus { outline: none; border-color: #3182ce; box-shadow: 0 0 0 3px rgba(49,130,206,0.1); }
     .filter-buttons { display: flex; gap: 12px; }
-    .filter-btn {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      padding: 8px 20px;
-      border-radius: 8px;
-      color: #4a5568;
-      font-weight: 500;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .filter-btn.active {
-      background: #3182ce;
-      border-color: #3182ce;
-      color: #fff;
-    }
+    .filter-btn { background: #fff; border: 1px solid #e2e8f0; padding: 8px 20px; border-radius: 8px; color: #4a5568; font-weight: 500; cursor: pointer; transition: 0.2s; }
+    .filter-btn.active { background: #3182ce; border-color: #3182ce; color: #fff; }
     .filter-btn:hover { border-color: #3182ce; color: #3182ce; }
-
-    /* Сетка карточек */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 24px;
-      margin-bottom: 50px;
-      align-items: stretch;
-    }
-
-    /* Карточка */
-    .card {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      transition: all 0.2s ease;
-      min-height: 460px;
-      position: relative;
-    }
-    .card:hover {
-      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
-      transform: translateY(-3px);
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    .code {
-      font-size: 0.75rem;
-      background: #edf2f7;
-      padding: 4px 10px;
-      border-radius: 20px;
-      color: #4a5568;
-      font-family: monospace;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      flex-shrink: 1;
-      min-width: 0;
-    }
-    .status {
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 30px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-bottom: 50px; align-items: stretch; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; transition: all 0.2s ease; min-height: 460px; position: relative; }
+    .card:hover { box-shadow: 0 12px 28px rgba(0,0,0,0.08); transform: translateY(-3px); }
+    .card-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .code { font-size: 0.75rem; background: #edf2f7; padding: 4px 10px; border-radius: 20px; color: #4a5568; font-family: monospace; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; flex-shrink: 1; min-width: 0; }
+    .status { font-size: 0.7rem; font-weight: 700; padding: 4px 12px; border-radius: 30px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
     .status.free { background: #c6f6d5; color: #22543d; }
     .status.busy { background: #fed7d7; color: #742a2a; }
-
-    /* Название инструмента (модель) */
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin: 0 0 16px 0;
-      line-height: 1.4;
-      color: #1a202c;
-      word-break: break-word;
-      cursor: pointer;
-      background: #f0f9ff;
-      padding: 4px 8px;
-      border-radius: 8px;
-      transition: background 0.2s;
-      display: inline-block;
-      width: auto;
-      position: relative;
-      z-index: 2;
-    }
+    .card-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 16px 0; line-height: 1.4; color: #1a202c; word-break: break-word; cursor: pointer; background: #f0f9ff; padding: 4px 8px; border-radius: 8px; transition: background 0.2s; display: inline-block; width: auto; position: relative; z-index: 2; }
     .card-title:hover { background: #dbeafe; }
-
-    /* ПОПАП под названием */
-    .card-popup {
-      position: absolute;
-      left: 0;
-      right: 0;
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-      padding: 12px;
-      z-index: 20;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-      pointer-events: auto;
-      margin: 0 20px;
-      width: calc(100% - 40px);
-    }
-    .card-popup img {
-      width: 100%;
-      max-height: 160px;
-      object-fit: contain;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-    .card-popup .popup-title {
-      font-weight: 700;
-      font-size: 0.85rem;
-      margin-bottom: 8px;
-      text-align: center;
-    }
+    .card-popup { position: absolute; left: 0; right: 0; background: white; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); padding: 12px; z-index: 20; display: none; opacity: 0; transition: opacity 0.2s ease; pointer-events: auto; margin: 0 20px; width: calc(100% - 40px); }
+    .card-popup img { width: 100%; max-height: 160px; object-fit: contain; border-radius: 8px; margin-bottom: 10px; }
+    .card-popup .popup-title { font-weight: 700; font-size: 0.85rem; margin-bottom: 8px; text-align: center; }
     .card-popup .popup-search { text-align: center; margin-top: 8px; }
-    .search-link {
-      background: #3182ce;
-      color: white;
-      padding: 5px 12px;
-      border-radius: 20px;
-      text-decoration: none;
-      font-size: 0.7rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-block;
-    }
+    .search-link { background: #3182ce; color: white; padding: 5px 12px; border-radius: 20px; text-decoration: none; font-size: 0.7rem; font-weight: 600; cursor: pointer; display: inline-block; }
     .search-link:hover { background: #2c5282; }
-    .card-popup .no-image-text {
-      text-align: center;
-      color: #718096;
-      padding: 20px 0;
-    }
-
-    /* Блок цены и залога */
-    .details {
-      background: #f7fafc;
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 1;
-    }
-    .detail-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 10px;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
+    .card-popup .no-image-text { text-align: center; color: #718096; padding: 20px 0; }
+    .details { background: #f7fafc; border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; position: relative; z-index: 1; }
+    .detail-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 12px; flex-wrap: wrap; }
     .price { font-size: 1.4rem; font-weight: 800; color: #2b6cb0; }
     .deposit { font-weight: 600; color: #2d3748; }
-
-    .card-footer {
-      margin-top: auto;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      z-index: 1;
-    }
+    .card-footer { margin-top: auto; display: flex; flex-direction: column; position: relative; z-index: 1; }
     .btn-group { display: flex; gap: 12px; }
-    .btn {
-      flex: 1;
-      text-align: center;
-      padding: 12px 10px;
-      border-radius: 8px;
-      font-weight: 600;
-      text-decoration: none;
-      font-size: 0.9rem;
-      white-space: nowrap;
-    }
+    .btn { flex: 1; text-align: center; padding: 12px 10px; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 0.9rem; white-space: nowrap; }
     .btn-primary { background: #3182ce; color: #fff; }
     .btn-outline { border: 1px solid #cbd5e0; color: #4a5568; background: #fff; }
-    .busy-info {
-      background: #fed7d7;
-      border-left: 4px solid #e53e3e;
-      padding: 12px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #742a2a;
-      font-weight: 500;
-      min-height: 56px;
-    }
+    .busy-info { background: #fed7d7; border-left: 4px solid #e53e3e; padding: 12px; border-radius: 8px; display: flex; align-items: center; gap: 8px; color: #742a2a; font-weight: 500; min-height: 56px; }
     .card.free-card .busy-info { display: none; }
     .card.busy-card .btn-group { display: none; }
-
-    .site-footer {
-      background: #2d3748;
-      color: #a0aec0;
-      padding: 30px 0;
-      text-align: center;
-      font-size: 0.8rem;
-      margin-top: 40px;
-    }
+    .site-footer { background: #2d3748; color: #a0aec0; padding: 30px 0; text-align: center; font-size: 0.8rem; margin-top: 40px; }
     .loader, .error-msg { text-align: center; padding: 20px; }
-
     @media (max-width: 680px) {
       .header-inner { flex-direction: column; text-align: center; gap: 5px; }
       .address, .logo h1, .header-contacts { white-space: normal; }
@@ -344,8 +93,8 @@
 <footer class="site-footer">© 2025 ЭЛЕКТРОСЕРВИС — ремонт и прокат инструмента в Санкт-Петербурге</footer>
 
 <script>
-  // ========== ВСТАВЬТЕ ВАШ URL СКРИПТА ==========
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDzqjjSCxW8iyjYBiP3KfRE64N24YWot6Qo67ykO6WP-ez8HIqRgqZAvoqMwd-p5k/exec';
+  // ========== ВСТАВЬТЕ ВАШ URL СКРИПТА (БЕЗ ПАРАМЕТРОВ) ==========
+  const SCRIPT_URL = 'https://script.google.com/macros/s/.../exec';  // ЗАМЕНИТЕ НА РЕАЛЬНЫЙ
 
   const PHONE_MAIN = '+79013006670';
   const PHONE_ALT = '+79817239331';
@@ -522,27 +271,40 @@
     renderTools(filtered);
   }
 
-  async function loadData() {
+  // JSONP загрузка данных
+  function loadData() {
     gridContainer.innerHTML = '<div class="loader">Загрузка каталога...</div>';
     errorDiv.innerHTML = '';
-    try {
-      const response = await fetch(SCRIPT_URL, { method: 'GET', cache: 'no-store' });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const result = await response.json();
-      if (!result.success) throw new Error(result.error || 'Ошибка получения данных');
-      const rows = result.data;
-      if (!rows || rows.length === 0) throw new Error('Таблица пуста');
-      allTools = rows.map(row => ({
-        ...row,
-        isFree: (row['Статус'] || '').toString().toLowerCase().trim() === 'свободен'
-      }));
-      allTools.sort((a, b) => b.isFree - a.isFree);
-      applyFiltersAndSearch();
-    } catch (err) {
-      console.error(err);
-      errorDiv.innerHTML = `<div class="error-msg">⚠️ Ошибка загрузки данных: ${err.message}<br>Проверьте работу скрипта или свяжитесь с администратором.</div>`;
+
+    const scriptId = 'jsonp_callback_' + Date.now();
+    window[scriptId] = function(response) {
+      delete window[scriptId];
+      document.body.removeChild(script);
+      try {
+        if (!response.success) throw new Error(response.error || 'Ошибка получения данных');
+        const rows = response.data;
+        if (!rows || rows.length === 0) throw new Error('Таблица пуста');
+        allTools = rows.map(row => ({
+          ...row,
+          isFree: (row['Статус'] || '').toString().toLowerCase().trim() === 'свободен'
+        }));
+        allTools.sort((a, b) => b.isFree - a.isFree);
+        applyFiltersAndSearch();
+      } catch (err) {
+        console.error(err);
+        errorDiv.innerHTML = `<div class="error-msg">⚠️ Ошибка загрузки данных: ${err.message}<br>Проверьте работу скрипта или свяжитесь с администратором.</div>`;
+        gridContainer.innerHTML = '';
+      }
+    };
+
+    const script = document.createElement('script');
+    script.src = `${SCRIPT_URL}?callback=${scriptId}&t=${Date.now()}`;
+    script.onerror = () => {
+      errorDiv.innerHTML = `<div class="error-msg">⚠️ Не удалось загрузить данные. Проверьте URL скрипта.</div>`;
       gridContainer.innerHTML = '';
-    }
+      delete window[scriptId];
+    };
+    document.body.appendChild(script);
   }
 
   let debounceTimer;
