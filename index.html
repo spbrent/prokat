@@ -93,8 +93,8 @@
 <footer class="site-footer">© 2025 ЭЛЕКТРОСЕРВИС — ремонт и прокат инструмента в Санкт-Петербурге</footer>
 
 <script>
-  // ========== ВСТАВЬТЕ ВАШ URL СКРИПТА (БЕЗ ПАРАМЕТРОВ) ==========
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDzqjjSCxW8iyjYBiP3KfRE64N24YWot6Qo67ykO6WP-ez8HIqRgqZAvoqMwd-p5k/exec';  // ЗАМЕНИТЕ НА РЕАЛЬНЫЙ
+  // ========== ВАШ URL СКРИПТА ==========
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDzqjjSCxW8iyjYBiP3KfRE64N24YWot6Qo67ykO6WP-ez8HIqRgqZAvoqMwd-p5k/exec';
 
   const PHONE_MAIN = '+79013006670';
   const PHONE_ALT = '+79817239331';
@@ -271,7 +271,7 @@
     renderTools(filtered);
   }
 
-  // JSONP загрузка данных
+  // JSONP загрузка данных с фильтрацией по статусу
   function loadData() {
     gridContainer.innerHTML = '<div class="loader">Загрузка каталога...</div>';
     errorDiv.innerHTML = '';
@@ -282,8 +282,18 @@
       document.body.removeChild(script);
       try {
         if (!response.success) throw new Error(response.error || 'Ошибка получения данных');
-        const rows = response.data;
+        let rows = response.data;
         if (!rows || rows.length === 0) throw new Error('Таблица пуста');
+
+        // ========== ФИЛЬТР: ТОЛЬКО СТРОКИ СО СТАТУСОМ "свободен" ИЛИ "занят" ==========
+        const validStatuses = ['свободен', 'занят'];
+        rows = rows.filter(row => {
+          const status = (row['Статус'] || '').toString().toLowerCase().trim();
+          return validStatuses.includes(status);
+        });
+
+        if (rows.length === 0) throw new Error('Нет инструментов с корректным статусом ("свободен" или "занят")');
+
         allTools = rows.map(row => ({
           ...row,
           isFree: (row['Статус'] || '').toString().toLowerCase().trim() === 'свободен'
@@ -292,7 +302,7 @@
         applyFiltersAndSearch();
       } catch (err) {
         console.error(err);
-        errorDiv.innerHTML = `<div class="error-msg">⚠️ Ошибка загрузки данных: ${err.message}<br>Проверьте работу скрипта или свяжитесь с администратором.</div>`;
+        errorDiv.innerHTML = `<div class="error-msg">⚠️ Ошибка загрузки данных: ${err.message}<br>Проверьте, что в столбце «Статус» указано «свободен» или «занят» (без лишних пробелов).</div>`;
         gridContainer.innerHTML = '';
       }
     };
