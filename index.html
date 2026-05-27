@@ -2,22 +2,37 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Тест скрипта</title>
+  <title>Тест прокси для проката</title>
 </head>
 <body>
-  <h3>Результат:</h3>
-  <pre id="result">Загрузка...</pre>
+  <h1>Тест подключения к данным проката</h1>
+  <pre id="output">Загрузка данных...</pre>
+
   <script>
-    // Сюда вставьте URL вашего скрипта
+    // ⚠️ ВАЖНО: Замените этот URL на URL вашего веб-приложения из Apps Script
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDzqjjSCxW8iyjYBiP3KfRE64N24YWot6Qo67ykO6WP-ez8HIqRgqZAvoqMwd-p5k/exec';
-    fetch(SCRIPT_URL)
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById('result').innerText = JSON.stringify(data, null, 2);
-      })
-      .catch(error => {
-        document.getElementById('result').innerText = 'Ошибка: ' + error;
-      });
+
+    async function testConnection() {
+      const outputDiv = document.getElementById('output');
+      outputDiv.textContent = 'Отправка запроса к прокси...';
+
+      try {
+        // Простой fetch запрос к вашему скрипту
+        const response = await fetch(SCRIPT_URL);
+
+        if (!response.ok) {
+          throw new Error(`Ошибка HTTP: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        outputDiv.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        outputDiv.textContent = `Ошибка подключения: ${error.message}`;
+      }
+    }
+
+    // Запускаем тест после загрузки страницы
+    window.onload = testConnection;
   </script>
 </body>
 </html>
