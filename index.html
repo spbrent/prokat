@@ -1,20 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
+<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>Прокат инструмента | ЭЛЕКТРОСЕРВИС</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background: #f0f4f8;
-      font-family: 'Segoe UI', system-ui, 'Roboto', sans-serif;
-      color: #1a202c;
-      line-height: 1.5;
-    }
-
-    /* --- ШАПКА --- */
+    body { background: #f0f4f8; font-family: 'Segoe UI', system-ui, sans-serif; color: #1a202c; line-height: 1.5; }
     .site-header {
       background: #2d3748;
       color: #fff;
@@ -23,18 +16,10 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      transition: background 0.3s ease, box-shadow 0.3s ease;
+      transition: background 0.3s ease;
     }
-    .site-header.scrolled {
-      background: rgba(45, 55, 72, 0.9);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    }
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+    .site-header.scrolled { background: rgba(45, 55, 72, 0.9); backdrop-filter: blur(8px); }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
     .header-inner {
       display: flex;
       flex-wrap: wrap;
@@ -43,278 +28,55 @@
       gap: 15px;
       font-size: 0.9rem;
     }
-    .logo h1 {
-      font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 700;
-      margin: 0;
-      white-space: nowrap;
-    }
-    .address {
-      font-size: 0.75rem;
-      color: #a0aec0;
-      white-space: nowrap;
-    }
-    .header-contacts {
-      text-align: right;
-      white-space: nowrap;
-    }
-    .header-contacts a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-    .header-contacts .small {
-      font-size: 0.7rem;
-      color: #a0aec0;
-    }
-
-    /* Поиск и фильтр */
-    .toolbar {
-      margin: 30px 0 25px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-    }
+    .logo h1 { font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; white-space: nowrap; }
+    .address { font-size: 0.75rem; color: #a0aec0; white-space: nowrap; }
+    .header-contacts { text-align: right; white-space: nowrap; }
+    .header-contacts a { color: #fff; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+    .header-contacts .small { font-size: 0.7rem; color: #a0aec0; }
+    .toolbar { margin: 30px 0 25px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 15px; }
     .search-box { flex: 2; min-width: 200px; }
-    .search-box input {
-      width: 100%;
-      padding: 12px 18px;
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      color: #1a202c;
-      font-size: 1rem;
-    }
-    .search-box input:focus {
-      outline: none;
-      border-color: #3182ce;
-      box-shadow: 0 0 0 3px rgba(49,130,206,0.1);
-    }
+    .search-box input { width: 100%; padding: 12px 18px; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 1rem; }
     .filter-buttons { display: flex; gap: 12px; }
-    .filter-btn {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      padding: 8px 20px;
-      border-radius: 8px;
-      color: #4a5568;
-      font-weight: 500;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .filter-btn.active {
-      background: #3182ce;
-      border-color: #3182ce;
-      color: #fff;
-    }
-    .filter-btn:hover { border-color: #3182ce; color: #3182ce; }
-
-    /* Сетка карточек */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 24px;
-      margin-bottom: 50px;
-      align-items: stretch;
-    }
-
-    /* Карточка */
-    .card {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      transition: all 0.2s ease;
-      min-height: 460px;
-      position: relative;
-    }
-    .card:hover {
-      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
-      transform: translateY(-3px);
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    .code {
-      font-size: 0.75rem;
-      background: #edf2f7;
-      padding: 4px 10px;
-      border-radius: 20px;
-      color: #4a5568;
-      font-family: monospace;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      flex-shrink: 1;
-      min-width: 0;
-    }
-    .status {
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 30px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
+    .filter-btn { background: #fff; border: 1px solid #e2e8f0; padding: 8px 20px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+    .filter-btn.active { background: #3182ce; border-color: #3182ce; color: #fff; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-bottom: 50px; align-items: stretch; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; transition: all 0.2s; min-height: 460px; position: relative; }
+    .card:hover { box-shadow: 0 12px 28px rgba(0,0,0,0.08); transform: translateY(-3px); }
+    .card-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .code { font-size: 0.75rem; background: #edf2f7; padding: 4px 10px; border-radius: 20px; color: #4a5568; font-family: monospace; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .status { font-size: 0.7rem; font-weight: 700; padding: 4px 12px; border-radius: 30px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
     .status.free { background: #c6f6d5; color: #22543d; }
     .status.busy { background: #fed7d7; color: #742a2a; }
-
-    /* Название инструмента (модель) */
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin: 0 0 16px 0;
-      line-height: 1.4;
-      color: #1a202c;
-      word-break: break-word;
-      cursor: pointer;
-      background: #f0f9ff;
-      padding: 4px 8px;
-      border-radius: 8px;
-      transition: background 0.2s;
-      display: inline-block;
-      width: auto;
-      position: relative;
-      z-index: 2;
-    }
+    .card-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 16px 0; line-height: 1.4; cursor: pointer; background: #f0f9ff; padding: 4px 8px; border-radius: 8px; display: inline-block; position: relative; z-index: 2; }
     .card-title:hover { background: #dbeafe; }
-
-    /* ПОПАП под названием */
-    .card-popup {
-      position: absolute;
-      left: 0;
-      right: 0;
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-      padding: 12px;
-      z-index: 20;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-      pointer-events: auto;
-      margin: 0 20px;
-      width: calc(100% - 40px);
-    }
-    .card-popup img {
-      width: 100%;
-      max-height: 160px;
-      object-fit: contain;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-    .card-popup .popup-title {
-      font-weight: 700;
-      font-size: 0.85rem;
-      margin-bottom: 8px;
-      text-align: center;
-    }
+    .card-popup { position: absolute; left: 0; right: 0; background: white; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); padding: 12px; z-index: 20; display: none; opacity: 0; transition: opacity 0.2s; margin: 0 20px; width: calc(100% - 40px); }
+    .card-popup img { width: 100%; max-height: 160px; object-fit: contain; border-radius: 8px; margin-bottom: 10px; }
+    .card-popup .popup-title { font-weight: 700; font-size: 0.85rem; text-align: center; }
     .card-popup .popup-search { text-align: center; margin-top: 8px; }
-    .search-link {
-      background: #3182ce;
-      color: white;
-      padding: 5px 12px;
-      border-radius: 20px;
-      text-decoration: none;
-      font-size: 0.7rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-block;
-    }
-    .search-link:hover { background: #2c5282; }
-    .card-popup .no-image-text {
-      text-align: center;
-      color: #718096;
-      padding: 20px 0;
-    }
-
-    /* Блок цены и залога */
-    .details {
-      background: #f7fafc;
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 1;
-    }
-    .detail-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 10px;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
+    .search-link { background: #3182ce; color: white; padding: 5px 12px; border-radius: 20px; text-decoration: none; font-size: 0.7rem; font-weight: 600; cursor: pointer; display: inline-block; }
+    .details { background: #f7fafc; border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; }
+    .detail-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 12px; flex-wrap: wrap; }
     .price { font-size: 1.4rem; font-weight: 800; color: #2b6cb0; }
     .deposit { font-weight: 600; color: #2d3748; }
-
-    .card-footer {
-      margin-top: auto;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      z-index: 1;
-    }
+    .card-footer { margin-top: auto; display: flex; flex-direction: column; }
     .btn-group { display: flex; gap: 12px; }
-    .btn {
-      flex: 1;
-      text-align: center;
-      padding: 12px 10px;
-      border-radius: 8px;
-      font-weight: 600;
-      text-decoration: none;
-      font-size: 0.9rem;
-      white-space: nowrap;
-    }
+    .btn { flex: 1; text-align: center; padding: 12px 10px; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 0.9rem; white-space: nowrap; }
     .btn-primary { background: #3182ce; color: #fff; }
     .btn-outline { border: 1px solid #cbd5e0; color: #4a5568; background: #fff; }
-    .busy-info {
-      background: #fed7d7;
-      border-left: 4px solid #e53e3e;
-      padding: 12px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #742a2a;
-      font-weight: 500;
-      min-height: 56px;
-    }
+    .busy-info { background: #fed7d7; border-left: 4px solid #e53e3e; padding: 12px; border-radius: 8px; display: flex; align-items: center; gap: 8px; color: #742a2a; font-weight: 500; min-height: 56px; }
     .card.free-card .busy-info { display: none; }
     .card.busy-card .btn-group { display: none; }
-
-    .site-footer {
-      background: #2d3748;
-      color: #a0aec0;
-      padding: 30px 0;
-      text-align: center;
-      font-size: 0.8rem;
-      margin-top: 40px;
-    }
+    .site-footer { background: #2d3748; color: #a0aec0; padding: 30px 0; text-align: center; font-size: 0.8rem; margin-top: 40px; }
     .loader, .error-msg { text-align: center; padding: 20px; }
-
     @media (max-width: 680px) {
       .header-inner { flex-direction: column; text-align: center; gap: 5px; }
       .address, .logo h1, .header-contacts { white-space: normal; }
       .toolbar { flex-direction: column; align-items: stretch; }
       .btn { white-space: normal; }
       .card-popup { margin: 0 10px; width: calc(100% - 20px); }
-      .card-popup img { max-height: 120px; }
     }
   </style>
+  <title>Прокат</title>
 </head>
 <body>
 
@@ -344,156 +106,70 @@
 <footer class="site-footer">© 2025 ЭЛЕКТРОСЕРВИС — ремонт и прокат инструмента в Санкт-Петербурге</footer>
 
 <script>
-  // ========== НАСТРОЙКИ ==========
-  // ⚠️ ЗАМЕНИТЕ НА АКТУАЛЬНЫЙ URL ВАШЕГО ВЕБ-ПРИЛОЖЕНИЯ APPS SCRIPT
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz.../exec';
+  // === ЕДИНСТВЕННЫЙ НАСТРАИВАЕМЫЙ ПАРАМЕТР ===
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDzqjjSCxW8iyjYBiP3KfRE64N24YWot6Qo67ykO6WP-ez8HIqRgqZAvoqMwd-p5k/exec';
 
-  // Телефоны (первый - основной, второй - дополнительный)
-  const PHONE_MAIN = '+79013006670';
-  const PHONE_ALT = '+79817239331';
-
-  // ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
   let allTools = [];
   let currentFilter = 'all';
-  let searchQuery = '';
 
-  // DOM элементы
   const gridContainer = document.getElementById('catalogGrid');
   const searchInput = document.getElementById('searchInput');
   const errorDiv = document.getElementById('errorMsg');
   const filterBtns = document.querySelectorAll('.filter-btn');
 
-  // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
-  function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m]));
-  }
-
-  // Функция поиска в Яндексе (глобальная для onclick)
-  window.searchYandex = function(query) {
-    window.open(`https://yandex.ru/search/?text=${encodeURIComponent(query)}`, '_blank');
-  };
-
-  // Формирование пути к изображению на основе названия модели
+  function getIsFree(row) { return (row['Статус'] || '').toLowerCase().trim() === 'свободен'; }
+  function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
   function getImagePathFromModel(modelName) {
     if (!modelName || modelName === '—') return null;
-    let safe = modelName.toLowerCase()
-      .replace(/[^a-zа-яё0-9]/g, '-')
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '');
-    if (!safe) return null;
-    return `images/${safe}.jpg`;
+    let safe = modelName.toLowerCase().replace(/[^a-zа-яё0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    return safe ? `images/${safe}.jpg` : null;
+  }
+  window.searchYandex = function(query) { window.open(`https://yandex.ru/search/?text=${encodeURIComponent(query)}`, '_blank'); };
+
+  function positionPopup(card, popup, titleElem) {
+    const cardRect = card.getBoundingClientRect();
+    const titleRect = titleElem.getBoundingClientRect();
+    let top = titleRect.bottom - cardRect.top + 8;
+    const maxTop = card.clientHeight - popup.offsetHeight - 10;
+    if (top > maxTop) top = maxTop;
+    if (top < 0) top = 0;
+    popup.style.top = top + 'px';
   }
 
-  // ========== ЛОГИКА ПОПАПА ==========
   function attachPopupHandlers(card, tool) {
     const titleElem = card.querySelector('.card-title');
     if (!titleElem) return;
     let popup = card.querySelector('.card-popup');
-    if (!popup) {
-      popup = document.createElement('div');
-      popup.className = 'card-popup';
-      card.appendChild(popup);
-    }
-
-    let showTimeout = null;
-    let hideTimeout = null;
-    let isVisible = false;
-
-    function fillAndPosition() {
+    if (!popup) { popup = document.createElement('div'); popup.className = 'card-popup'; card.appendChild(popup); }
+    let showTimer = null, hideTimer = null, isVisible = false;
+    function fillAndPos() {
       const modelName = tool['Название - №'] || '';
       const imgPath = getImagePathFromModel(modelName);
-      const nameForSearch = modelName || tool['Код'] || 'Инструмент';
-      if (imgPath) {
-        popup.innerHTML = `
-          <div style="text-align:center;">
-            <img src="${imgPath}" 
-                 onerror="this.onerror=null; this.style.display='none'; this.parentElement.querySelector('.fallback').style.display='block';">
-            <div class="fallback" style="display:none; padding:10px;">📷 Фото отсутствует</div>
-          </div>
-          <div class="popup-title">${escapeHtml(modelName)}</div>
-          <div class="popup-search">
-            <a class="search-link" onclick="searchYandex('${escapeHtml(nameForSearch).replace(/'/g, "\\'")}')">🔍 Поискать в Яндексе</a>
-          </div>
-        `;
-      } else {
-        popup.innerHTML = `
-          <div class="no-image-text">📷 Нет фото</div>
-          <div class="popup-title">${escapeHtml(modelName)}</div>
-          <div class="popup-search">
-            <a class="search-link" onclick="searchYandex('${escapeHtml(nameForSearch).replace(/'/g, "\\'")}')">🔍 Поискать в Яндексе</a>
-          </div>
-        `;
-      }
+      const searchName = modelName || tool['Код'] || 'Инструмент';
+      popup.innerHTML = imgPath ? `
+        <div><img src="${imgPath}" onerror="this.onerror=null; this.style.display='none'; this.parentElement.querySelector('.fallback').style.display='block';"> <div class="fallback" style="display:none; padding:10px;">📷 Фото отсутствует</div></div>
+        <div class="popup-title">${escapeHtml(modelName)}</div>
+        <div class="popup-search"><a class="search-link" onclick="searchYandex('${escapeHtml(searchName).replace(/'/g, "\\'")}')">🔍 Поискать в Яндексе</a></div>
+      ` : `
+        <div class="no-image-text">📷 Нет фото</div>
+        <div class="popup-title">${escapeHtml(modelName)}</div>
+        <div class="popup-search"><a class="search-link" onclick="searchYandex('${escapeHtml(searchName).replace(/'/g, "\\'")}')">🔍 Поискать в Яндексе</a></div>
+      `;
       positionPopup(card, popup, titleElem);
     }
-
-    function positionPopup(card, popup, titleElem) {
-      const cardRect = card.getBoundingClientRect();
-      const titleRect = titleElem.getBoundingClientRect();
-      let top = titleRect.bottom - cardRect.top + 8;
-      const maxTop = card.clientHeight - popup.offsetHeight - 10;
-      if (top > maxTop) top = maxTop;
-      if (top < 0) top = 0;
-      popup.style.top = top + 'px';
-    }
-
-    function scheduleShow() {
-      if (hideTimeout) clearTimeout(hideTimeout);
-      if (showTimeout) clearTimeout(showTimeout);
-      showTimeout = setTimeout(() => {
-        if (!isVisible) {
-          fillAndPosition();
-          popup.style.display = 'block';
-          setTimeout(() => { popup.style.opacity = '1'; }, 5);
-          isVisible = true;
-        }
-        showTimeout = null;
-      }, 150);
-    }
-
-    function cancelShow() {
-      if (showTimeout) clearTimeout(showTimeout);
-    }
-
-    function scheduleHide() {
-      if (hideTimeout) clearTimeout(hideTimeout);
-      hideTimeout = setTimeout(() => {
-        popup.style.opacity = '0';
-        setTimeout(() => {
-          popup.style.display = 'none';
-          isVisible = false;
-        }, 200);
-        hideTimeout = null;
-      }, 300);
-    }
-
-    titleElem.addEventListener('mouseenter', scheduleShow);
-    titleElem.addEventListener('mouseleave', () => {
-      cancelShow();
-      if (isVisible) scheduleHide();
-    });
-    popup.addEventListener('mouseenter', () => {
-      if (hideTimeout) clearTimeout(hideTimeout);
-    });
-    popup.addEventListener('mouseleave', () => {
-      if (isVisible) scheduleHide();
-    });
-    window.addEventListener('resize', () => {
-      if (popup.style.display === 'block') {
-        positionPopup(card, popup, titleElem);
-      }
-    });
+    function show() { if (hideTimer) clearTimeout(hideTimer); if (showTimer) clearTimeout(showTimer); showTimer = setTimeout(() => { if (!isVisible) { fillAndPos(); popup.style.display = 'block'; setTimeout(() => popup.style.opacity = '1', 5); isVisible = true; } showTimer = null; }, 150); }
+    function hide() { if (showTimer) clearTimeout(showTimer); if (hideTimer) clearTimeout(hideTimer); hideTimer = setTimeout(() => { popup.style.opacity = '0'; setTimeout(() => { popup.style.display = 'none'; isVisible = false; }, 200); hideTimer = null; }, 300); }
+    titleElem.addEventListener('mouseenter', show);
+    titleElem.addEventListener('mouseleave', () => { if (showTimer) clearTimeout(showTimer); if (isVisible) hide(); });
+    popup.addEventListener('mouseenter', () => { if (hideTimer) clearTimeout(hideTimer); });
+    popup.addEventListener('mouseleave', hide);
+    window.addEventListener('resize', () => { if (popup.style.display === 'block') positionPopup(card, popup, titleElem); });
   }
 
-  // ========== ОТРИСОВКА КАРТОЧЕК ==========
   function renderTools(toolsArray) {
-    if (!toolsArray.length) {
-      gridContainer.innerHTML = '<div class="loader">Ничего не найдено</div>';
-      return;
-    }
-
-    const html = toolsArray.map(tool => {
+    if (!toolsArray.length) { gridContainer.innerHTML = '<div class="loader">Ничего не найдено</div>'; return; }
+    let html = '';
+    for (let tool of toolsArray) {
       const isFree = tool.isFree;
       const code = tool['Код'] || '—';
       const name = tool['Название - №'] || 'Инструмент';
@@ -501,119 +177,55 @@
       const deposit = tool['Залог'] ? `${tool['Залог']} ₽` : '—';
       const statusClass = isFree ? 'free' : 'busy';
       const statusText = isFree ? '● Свободен' : '● Занят';
-      const cardTypeClass = isFree ? 'free-card' : 'busy-card';
+      const cardClass = isFree ? 'free-card' : 'busy-card';
       let busyHtml = '';
-      if (!isFree) {
-        const returnDate = tool['Дата - до'] || tool['Дата'] || tool['Возврат'] || 'дата уточняется';
-        busyHtml = `<div class="busy-info">⏳ Занято до: <strong>${escapeHtml(returnDate)}</strong></div>`;
-      }
-      // Сериализуем объект для data-атрибута
+      if (!isFree) { const returnDate = tool['Дата - до'] || tool['Дата'] || tool['Возврат'] || 'дата уточняется'; busyHtml = `<div class="busy-info">⏳ Занято до: <strong>${escapeHtml(returnDate)}</strong></div>`; }
       const toolJson = JSON.stringify(tool).replace(/'/g, "&#39;");
-      return `
-        <div class="card ${cardTypeClass}" data-tool='${toolJson}'>
-          <div class="card-header">
-            <span class="code" title="${escapeHtml(code)}">${escapeHtml(code)}</span>
-            <span class="status ${statusClass}">${statusText}</span>
-          </div>
-          <div class="card-title">${escapeHtml(name)}</div>
-          <div class="details">
-            <div class="detail-row"><span class="label">Аренда / сутки</span><span class="price">${price}</span></div>
-            <div class="detail-row"><span class="label">Залог</span><span class="deposit">${deposit}</span></div>
-          </div>
-          <div class="card-footer">
-            <div class="btn-group">
-              <a href="tel:${PHONE_MAIN}" class="btn btn-primary">📞 Позвонить</a>
-              <a href="tel:${PHONE_ALT}" class="btn btn-outline">Второй номер</a>
-            </div>
-            ${busyHtml}
-          </div>
-        </div>
-      `;
-    }).join('');
-
+      html += `<div class="card ${cardClass}" data-tool='${toolJson}'><div class="card-header"><span class="code" title="${escapeHtml(code)}">${escapeHtml(code)}</span><span class="status ${statusClass}">${statusText}</span></div><div class="card-title">${escapeHtml(name)}</div><div class="details"><div class="detail-row"><span class="label">Аренда / сутки</span><span class="price">${price}</span></div><div class="detail-row"><span class="label">Залог</span><span class="deposit">${deposit}</span></div></div><div class="card-footer"><div class="btn-group"><a href="tel:+79013006670" class="btn btn-primary">📞 Позвонить</a><a href="tel:+79817239331" class="btn btn-outline">Второй номер</a></div>${busyHtml}</div></div>`;
+    }
     gridContainer.innerHTML = html;
-
-    // Привязываем обработчики попапов к каждой карточке
-    document.querySelectorAll('.card').forEach(card => {
-      const toolData = JSON.parse(card.getAttribute('data-tool'));
-      attachPopupHandlers(card, toolData);
-    });
+    document.querySelectorAll('.card').forEach(card => { const toolData = JSON.parse(card.getAttribute('data-tool')); attachPopupHandlers(card, toolData); });
   }
 
-  // ========== ФИЛЬТРАЦИЯ И ПОИСК ==========
-  function applyFiltersAndSearch() {
+  function applyFilters() {
+    const query = searchInput.value.toLowerCase().trim();
     let filtered = [...allTools];
-    if (currentFilter === 'free') {
-      filtered = filtered.filter(t => t.isFree === true);
-    }
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      filtered = filtered.filter(t => 
-        (t['Название - №'] || '').toLowerCase().includes(q) ||
-        (t['Код'] || '').toLowerCase().includes(q)
-      );
-    }
+    if (currentFilter === 'free') filtered = filtered.filter(t => t.isFree);
+    if (query) filtered = filtered.filter(t => (t['Название - №'] || '').toLowerCase().includes(query) || (t['Код'] || '').toLowerCase().includes(query));
     renderTools(filtered);
   }
 
-  // ========== ЗАГРУЗКА ДАННЫХ ИЗ APPS SCRIPT ==========
   async function loadData() {
-    gridContainer.innerHTML = '<div class="loader">Загрузка каталога...</div>';
+    gridContainer.innerHTML = '<div class="loader">Загрузка...</div>';
     errorDiv.innerHTML = '';
     try {
-      const response = await fetch(SCRIPT_URL, {
-        method: 'GET',
-        cache: 'no-store'
-      });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const result = await response.json();
-      if (!result.success) throw new Error(result.error || 'Ошибка получения данных');
-      const rows = result.data;
-      if (!rows || rows.length === 0) throw new Error('Таблица пуста');
-
-      allTools = rows.map(row => ({
-        ...row,
-        isFree: (row['Статус'] || '').toString().toLowerCase().trim() === 'свободен'
-      }));
-      // Сортировка: свободные вверху
-      allTools.sort((a, b) => b.isFree - a.isFree);
-      applyFiltersAndSearch();
+      const resp = await fetch(SCRIPT_URL);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+      if (data.error) throw new Error(data.error);
+      if (!Array.isArray(data)) throw new Error('Неверный формат');
+      allTools = data.map(row => ({ ...row, isFree: getIsFree(row) }));
+      allTools.sort((a,b) => b.isFree - a.isFree);
+      applyFilters();
     } catch (err) {
-      console.error(err);
-      errorDiv.innerHTML = `<div class="error-msg">⚠️ Ошибка загрузки данных: ${err.message}<br>Проверьте работу скрипта или свяжитесь с администратором.</div>`;
+      errorDiv.innerHTML = `<div class="error-msg">Ошибка: ${err.message}</div>`;
       gridContainer.innerHTML = '';
     }
   }
 
-  // ========== ОБРАБОТЧИКИ СОБЫТИЙ ==========
-  // Поиск с debounce для плавности
-  let debounceTimer;
-  searchInput.addEventListener('input', (e) => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-      searchQuery = e.target.value.trim();
-      applyFiltersAndSearch();
-    }, 300);
-  });
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentFilter = btn.getAttribute('data-filter');
-      applyFiltersAndSearch();
-    });
-  });
-
-  // Прозрачность шапки при скролле
   const header = document.getElementById('siteHeader');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) header.classList.add('scrolled');
-    else header.classList.remove('scrolled');
-  });
-
-  // Запуск
+  window.addEventListener('scroll', () => { if (window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled'); });
+  searchInput.addEventListener('input', applyFilters);
+  filterBtns.forEach(btn => btn.addEventListener('click', () => { filterBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.getAttribute('data-filter'); applyFilters(); }));
   loadData();
 </script>
+  <div id="data"></div>
+  <script>
+    fetch('https://script.google.com/macros/s/AKfycbzDzqjjSCxW8iyjYBiP3KfRE64N24YWot6Qo67ykO6WP-ez8HIqRgqZAvoqMwd-p5k/exec')
+      .then(r => r.json())
+      .then(d => document.getElementById('data').innerText = JSON.stringify(d, null, 2))
+      .catch(e => console.error(e));
+  </script>
 </body>
+</html>
 </html>
